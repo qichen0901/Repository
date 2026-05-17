@@ -4,8 +4,11 @@
     --dunhuang-green: #2E8B57;    /* 石绿 */
     --dunhuang-blue: #4682B4;     /* 石青 */
     --dunhuang-gold: #DAA520;     /* 金箔 */
-    --bg-color: #Fdfbf7;          /* 宣纸白 */
-    --text-color: #333;
+    --dunhuang-earth: #8B4513;    /* 赭石/泥土色 */
+    
+    /* 背景底色：模拟古老宣纸或风化的墙壁 */
+    --bg-color: #Fdfbf7;          
+    --text-color: #2c2c2c;
     --light-bg: #f4f1ea;
 }
 
@@ -16,12 +19,14 @@
 }
 
 body {
-    /* 使用系统自带的衬线字体，确保无网络时也能正常显示中文 serif 风格 */
     font-family: "Songti SC", "SimSun", "STSong", "Georgia", serif; 
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden;
+    
+    /* 【核心修改】全局背景纹理：使用 SVG 噪点模拟纸张/墙壁质感 */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
 }
 
 a {
@@ -41,14 +46,16 @@ ul {
 
 /* --- 导航栏 --- */
 header {
-    background-color: var(--dunhuang-red);
+    /* 半透明背景，增加现代感与通透感 */
+    background-color: rgba(178, 34, 34, 0.95); 
+    backdrop-filter: blur(5px);
     height: 70px;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .nav-container {
@@ -63,6 +70,7 @@ header {
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 .nav-links {
@@ -77,13 +85,30 @@ header {
     color: white;
     font-size: 1rem;
     transition: color 0.3s;
+    position: relative;
+}
+
+/* 导航下划线动画 */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--dunhuang-gold);
+    transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
 }
 
 .nav-links a:hover {
     color: var(--dunhuang-gold);
 }
 
-/* 移动端菜单按钮 (默认隐藏) */
+/* 移动端菜单按钮 */
 .burger {
     display: none;
     cursor: pointer;
@@ -97,11 +122,9 @@ header {
     transition: all 0.3s ease;
 }
 
-/* --- Hero Section (纯 CSS 背景方案) --- */
+/* --- Hero Section (沉浸式石窟氛围) --- */
 .hero {
     height: 100vh;
-    /* 默认背景，如果被下面的类覆盖则无效 */
-    background-color: #333; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,44 +136,53 @@ header {
 }
 
 /* 
-   使用 CSS 渐变模拟敦煌壁画的斑驳感和深邃感 
-   线性渐变模拟光影，径向渐变模拟中心聚焦
+   【核心修改】Hero 背景：
+   1. 底层：深褐色径向渐变，模拟洞穴深处的黑暗。
+   2. 中层：叠加石青和朱砂的微弱光晕，模拟壁画色彩。
+   3. 顶层：黑色遮罩，保证文字可读性。
 */
 .hero-bg-artistic {
     background: 
-        /* 顶层：噪点纹理模拟壁画剥落感 (使用半透明渐变模拟) */
-        linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-        /* 中层：复杂的径向渐变，模拟石窟内部的光线和色彩层次 */
-        radial-gradient(circle at 50% 30%, #5d4037 0%, #3e2723 40%, #1a1a1a 100%),
-        /* 底层：基础深色背景 */
-        #2c1e1a;
+        radial-gradient(circle at 50% 40%, rgba(70, 130, 180, 0.2) 0%, transparent 60%), /* 石青光晕 */
+        radial-gradient(circle at 80% 80%, rgba(178, 34, 34, 0.15) 0%, transparent 50%), /* 朱砂光晕 */
+        linear-gradient(to bottom, #2b1d16, #1a110d); /* 深色岩石基底 */
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* 视差滚动效果 */
 }
 
-/* 可选：添加一个伪元素作为装饰纹样，模拟飞天飘带的抽象线条 */
+/* 添加动态漂浮的尘埃粒子效果 (可选，增加氛围感) */
 .hero-bg-artistic::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
+    /* 使用重复线性渐变模拟极淡的丝绸或飞天飘带纹理 */
     background-image: 
-        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(218, 165, 32, 0.05) 10px, rgba(218, 165, 32, 0.05) 20px);
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(218, 165, 32, 0.03) 10px, rgba(218, 165, 32, 0.03) 20px),
+        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.02) 10px, rgba(255, 255, 255, 0.02) 20px);
     pointer-events: none;
     z-index: 1;
+    animation: textureMove 60s linear infinite;
+}
+
+@keyframes textureMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
 }
 
 .hero-content {
     position: relative;
-    z-index: 2; /* 确保文字在背景之上 */
+    z-index: 2;
+    padding: 0 20px;
 }
 
 .hero h1 {
     font-size: 5rem;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-    letter-spacing: 5px;
+    /* 文字描边效果，模仿碑刻 */
+    text-shadow: 3px 3px 0px rgba(178, 34, 34, 0.5), 6px 6px 10px rgba(0,0,0,0.8);
+    letter-spacing: 10px;
     color: #fff;
+    font-weight: normal;
 }
 
 .hero p {
@@ -158,35 +190,61 @@ header {
     max-width: 700px;
     margin: 0 auto 2rem auto;
     text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-    color: #eee;
+    color: #e0e0e0;
+    letter-spacing: 2px;
 }
 
 .cta-button {
     padding: 15px 40px;
-    background-color: var(--dunhuang-gold);
-    color: var(--dunhuang-red);
-    border: none;
-    border-radius: 50px;
+    background-color: transparent;
+    color: var(--dunhuang-gold);
+    border: 2px solid var(--dunhuang-gold);
+    border-radius: 4px; /* 方形圆角，更古朴 */
     font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 0%; height: 100%;
+    background-color: var(--dunhuang-gold);
+    z-index: -1;
+    transition: width 0.3s ease;
 }
 
 .cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.6);
-    background-color: #ffd700;
+    color: #2b1d16;
+}
+
+.cta-button:hover::before {
+    width: 100%;
 }
 
 /* --- 通用 Section 样式 --- */
 .section {
     padding: 80px 0;
+    position: relative;
+}
+
+/* 给章节添加淡淡的边框装饰，模仿画框 */
+.section::before {
+    content: '';
+    position: absolute;
+    top: 20px; bottom: 20px; left: 20px; right: 20px;
+    border: 1px solid rgba(178, 34, 34, 0.1);
+    pointer-events: none;
 }
 
 .bg-light {
     background-color: var(--light-bg);
+    /* 浅色背景也加上噪点 */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
 .section-title {
@@ -195,16 +253,18 @@ header {
     color: var(--dunhuang-red);
     margin-bottom: 3rem;
     position: relative;
+    font-weight: normal;
 }
 
+/* 标题下方的装饰线：模仿毛笔笔触 */
 .section-title::after {
     content: '';
     display: block;
-    width: 60px;
-    height: 4px;
-    background-color: var(--dunhuang-green);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--dunhuang-green), transparent);
     margin: 15px auto 0;
-    border-radius: 2px;
+    border-radius: 50%;
 }
 
 /* --- 网格布局 --- */
@@ -215,25 +275,24 @@ header {
 }
 
 .card {
-    background: white;
-    border: 1px solid #eee;
-    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #e0d6c8;
+    border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
 }
 
+/* 卡片悬停时的金色边框效果 */
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 30px rgba(178, 34, 34, 0.15);
+    border-color: var(--dunhuang-gold);
 }
 
-/* 
-   卡片图片区域 - 纯 CSS 艺术化替代方案 
-   不再使用 <img> 标签，而是用 div 配合 CSS 渐变和图案
-*/
 .card-img {
-    height: 200px;
+    height: 220px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -244,97 +303,94 @@ header {
 .pattern-text {
     position: relative;
     z-index: 2;
-    color: rgba(255,255,255,0.9);
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    letter-spacing: 2px;
+    color: rgba(255,255,255,0.95);
+    font-size: 1.8rem;
+    font-weight: normal;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    letter-spacing: 5px;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px 20px;
+    background: rgba(0,0,0,0.2);
+    backdrop-filter: blur(2px);
 }
 
-/* 通用壁画纹理基底 */
+/* 卡片纹理基底：噪点 + 颜色 */
 .artistic-pattern {
-    /* 使用噪点渐变模拟墙壁质感 */
-    background-image: 
-        linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
-    background-size: cover, 200px 200px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E");
+    background-blend-mode: overlay;
 }
 
-/* 特定卡片的配色方案 */
 .pattern-96 {
-    /* 九层楼：红色调，庄严 */
     background-color: #8B3A3A;
-    background-image: 
-        linear-gradient(135deg, #8B3A3A 0%, #5D2929 100%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+    /* 叠加一个径向渐变，模拟光照 */
+    background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E");
 }
 
 .pattern-17 {
-    /* 藏经洞：土黄色调，历史感 */
     background-color: #C2B280;
-    background-image: 
-        linear-gradient(135deg, #C2B280 0%, #8C7B50 100%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+    background-image: radial-gradient(circle at 70% 70%, rgba(0,0,0,0.2), transparent), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E");
 }
 
 .pattern-257 {
-    /* 九色鹿：青绿色调，灵动 */
     background-color: #4682B4;
-    background-image: 
-        linear-gradient(135deg, #4682B4 0%, #2F4F4F 100%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E");
 }
-
 
 .card-content {
     padding: 1.5rem;
+    text-align: justify; /* 两端对齐，更像书籍排版 */
 }
 
 .card-title {
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
-    color: var(--dunhuang-blue);
+    color: var(--dunhuang-earth);
+    font-weight: bold;
 }
 
 /* --- 色彩展示 --- */
 .color-palette {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     flex-wrap: wrap;
 }
 
 .color-item {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 1.2rem;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     transition: transform 0.3s;
+    border: 4px solid white; /* 白色边框像裱画 */
+    outline: 1px solid #ddd;
 }
 
 .color-item:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(5deg);
+    z-index: 10;
 }
 
 /* --- Footer --- */
 footer {
-    background-color: #2c2c2c;
-    color: #aaa;
+    background-color: #1a110d; /* 深岩石色 */
+    color: #888;
     text-align: center;
-    padding: 2rem;
+    padding: 3rem 2rem;
     font-size: 0.9rem;
+    border-top: 3px solid var(--dunhuang-red); /* 顶部红线装饰 */
 }
 
-/* --- 动画类 (由 JS 触发或 CSS 自动播放) --- */
+/* --- 动画类 --- */
 .fade-in {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
     animation: fadeInUp 1s ease forwards;
 }
 
@@ -355,17 +411,18 @@ footer {
         right: 0px;
         height: 92vh;
         top: 70px;
-        background-color: var(--dunhuang-red);
+        background-color: rgba(178, 34, 34, 0.98);
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 50%;
+        width: 60%;
         transform: translateX(100%);
         transition: transform 0.5s ease-in;
+        padding-top: 50px;
     }
 
     .nav-links li {
-        margin: 30px 0;
+        margin: 25px 0;
         opacity: 0;
     }
 
@@ -379,6 +436,7 @@ footer {
 
     .hero h1 {
         font-size: 3rem;
+        letter-spacing: 5px;
     }
     
     .color-item {
@@ -386,9 +444,12 @@ footer {
         height: 100px;
         font-size: 1rem;
     }
+    
+    .section::before {
+        display: none; /* 移动端隐藏装饰框以节省空间 */
+    }
 }
 
-/* 移动端菜单动画 */
 @keyframes navLinkFade {
     from { opacity: 0; transform: translateX(50px); }
     to { opacity: 1; transform: translateX(0); }
