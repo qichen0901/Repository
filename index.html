@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字敦煌 - 千年艺术瑰宝</title>
+    <!-- 引入外部 CSS 文件 -->
+    <link rel="stylesheet" href="style.css">
+    <!-- 移除了 Google Fonts 链接，使用系统默认衬线体以保证稳定性 -->
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <header id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">数字敦煌</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#caves">数字洞窟</a></li>
+                    <li><a href="#colors">敦煌色彩</a></li>
+                    <li><a href="#about">关于</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 首屏 Hero Section -->
+    <!-- 移除了背景图片 URL，改用 CSS 类 .hero-bg-artistic 控制背景 -->
+    <section id="home" class="hero hero-bg-artistic">
+        <div class="hero-content">
+            <h1 class="fade-in">千年敦煌</h1>
+            <p class="fade-in delay-1">探索丝绸之路上的璀璨明珠，感受跨越千年的艺术震撼。</p>
+            <button id="exploreBtn" class="cta-button fade-in delay-2">开始虚拟游览</button>
+        </div>
+    </section>
+
+    <!-- 精选洞窟 -->
+    <section id="caves" class="section">
+        <div class="container">
+            <h2 class="section-title">精选洞窟</h2>
+            <div class="grid">
+                <!-- 卡片 1 -->
+                <div class="card">
+                    <!-- 使用 CSS 类模拟壁画纹理，不再依赖 img 标签或网络图 -->
+                    <div class="card-img artistic-pattern pattern-96">
+                        <span class="pattern-text">九层楼</span>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">第96窟 - 九层楼</h3>
+                        <p>莫高窟的标志性建筑，内供世界第三大佛，气势恢宏，是敦煌的象征。</p>
+                    </div>
+                </div>
+                <!-- 卡片 2 -->
+                <div class="card">
+                    <div class="card-img artistic-pattern pattern-17">
+                        <span class="pattern-text">藏经洞</span>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">第17窟 - 藏经洞</h3>
+                        <p>发现数万卷古代文献的地方，见证了历史的沧桑与文化的交流。</p>
+                    </div>
+                </div>
+                <!-- 卡片 3 -->
+                <div class="card">
+                    <div class="card-img artistic-pattern pattern-257">
+                        <span class="pattern-text">九色鹿</span>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">第257窟 - 九色鹿</h3>
+                        <p>著名的本生故事画，色彩鲜艳，构图精美，家喻户晓的经典故事。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 敦煌色彩展示 -->
+    <section id="colors" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">敦煌色彩</h2>
+            <div class="color-palette">
+                <div class="color-item" style="background-color: #B22222;">
+                    <span>朱砂</span>
+                </div>
+                <div class="color-item" style="background-color: #2E8B57;">
+                    <span>石绿</span>
+                </div>
+                <div class="color-item" style="background-color: #4682B4;">
+                    <span>石青</span>
+                </div>
+                <div class="color-item" style="background-color: #DAA520;">
+                    <span>金箔</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="about">
+        <p>&copy; 2023 数字敦煌项目 | 致敬传统文化</p>
+    </footer>
+
+    <!-- 引入外部 JS 文件 -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+/* --- 全局变量与重置 --- */
+:root {
+    --dunhuang-red: #B22222;      /* 朱砂 */
+    --dunhuang-green: #2E8B57;    /* 石绿 */
+    --dunhuang-blue: #4682B4;     /* 石青 */
+    --dunhuang-gold: #DAA520;     /* 金箔 */
+    --bg-color: #Fdfbf7;          /* 宣纸白 */
+    --text-color: #333;
+    --light-bg: #f4f1ea;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* 使用系统自带的衬线字体，确保无网络时也能正常显示中文 serif 风格 */
+    font-family: "Songti SC", "SimSun", "STSong", "Georgia", serif; 
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- 导航栏 --- */
+header {
+    background-color: var(--dunhuang-red);
+    height: 70px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.logo {
+    color: var(--dunhuang-gold);
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 30px;
+}
+
+.nav-links a {
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--dunhuang-gold);
+}
+
+/* 移动端菜单按钮 (默认隐藏) */
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+/* --- Hero Section (纯 CSS 背景方案) --- */
+.hero {
+    height: 100vh;
+    /* 默认背景，如果被下面的类覆盖则无效 */
+    background-color: #333; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding-top: 70px; 
+    position: relative;
+    overflow: hidden;
+}
+
+/* 
+   使用 CSS 渐变模拟敦煌壁画的斑驳感和深邃感 
+   线性渐变模拟光影，径向渐变模拟中心聚焦
+*/
+.hero-bg-artistic {
+    background: 
+        /* 顶层：噪点纹理模拟壁画剥落感 (使用半透明渐变模拟) */
+        linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        /* 中层：复杂的径向渐变，模拟石窟内部的光线和色彩层次 */
+        radial-gradient(circle at 50% 30%, #5d4037 0%, #3e2723 40%, #1a1a1a 100%),
+        /* 底层：基础深色背景 */
+        #2c1e1a;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* 视差滚动效果 */
+}
+
+/* 可选：添加一个伪元素作为装饰纹样，模拟飞天飘带的抽象线条 */
+.hero-bg-artistic::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(218, 165, 32, 0.05) 10px, rgba(218, 165, 32, 0.05) 20px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2; /* 确保文字在背景之上 */
+}
+
+.hero h1 {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    letter-spacing: 5px;
+    color: #fff;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    color: #eee;
+}
+
+.cta-button {
+    padding: 15px 40px;
+    background-color: var(--dunhuang-gold);
+    color: var(--dunhuang-red);
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.6);
+    background-color: #ffd700;
+}
+
+/* --- 通用 Section 样式 --- */
+.section {
+    padding: 80px 0;
+}
+
+.bg-light {
+    background-color: var(--light-bg);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--dunhuang-red);
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--dunhuang-green);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+/* --- 网格布局 --- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 
+   卡片图片区域 - 纯 CSS 艺术化替代方案 
+   不再使用 <img> 标签，而是用 div 配合 CSS 渐变和图案
+*/
+.card-img {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.pattern-text {
+    position: relative;
+    z-index: 2;
+    color: rgba(255,255,255,0.9);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+}
+
+/* 通用壁画纹理基底 */
+.artistic-pattern {
+    /* 使用噪点渐变模拟墙壁质感 */
+    background-image: 
+        linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    background-size: cover, 200px 200px;
+}
+
+/* 特定卡片的配色方案 */
+.pattern-96 {
+    /* 九层楼：红色调，庄严 */
+    background-color: #8B3A3A;
+    background-image: 
+        linear-gradient(135deg, #8B3A3A 0%, #5D2929 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+}
+
+.pattern-17 {
+    /* 藏经洞：土黄色调，历史感 */
+    background-color: #C2B280;
+    background-image: 
+        linear-gradient(135deg, #C2B280 0%, #8C7B50 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+}
+
+.pattern-257 {
+    /* 九色鹿：青绿色调，灵动 */
+    background-color: #4682B4;
+    background-image: 
+        linear-gradient(135deg, #4682B4 0%, #2F4F4F 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+}
+
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--dunhuang-blue);
+}
+
+/* --- 色彩展示 --- */
+.color-palette {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.color-item {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.color-item:hover {
+    transform: scale(1.1);
+}
+
+/* --- Footer --- */
+footer {
+    background-color: #2c2c2c;
+    color: #aaa;
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.9rem;
+}
+
+/* --- 动画类 (由 JS 触发或 CSS 自动播放) --- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.3s; }
+.delay-2 { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- 响应式设计 --- */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        position: absolute;
+        right: 0px;
+        height: 92vh;
+        top: 70px;
+        background-color: var(--dunhuang-red);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        transform: translateX(100%);
+        transition: transform 0.5s ease-in;
+    }
+
+    .nav-links li {
+        margin: 30px 0;
+        opacity: 0;
+    }
+
+    .burger {
+        display: block;
+    }
+
+    .nav-active {
+        transform: translateX(0%);
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+    
+    .color-item {
+        width: 100px;
+        height: 100px;
+        font-size: 1rem;
+    }
+}
+
+/* 移动端菜单动画 */
+@keyframes navLinkFade {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+.toggle .line2 { opacity: 0; }
+.toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
